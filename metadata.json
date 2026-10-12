@@ -1,0 +1,6 @@
+{
+  "name": "VIAAS Evaluator",
+  "description": "Smart Assessment & Google Sheets Keyword Answer Grading System",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,78 @@
+{
+  "entities": {
+    "Exam": {
+      "title": "Exam",
+      "description": "Represents an assessment with technical objectives, subjective synthesis prompts, and Tally Pro settings.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "accessCode": { "type": "string" },
+        "sourceMaterial": { "type": "string" },
+        "extractedKeywords": { "type": "array" },
+        "objectiveQuestions": { "type": "array" },
+        "subjectiveQuestions": { "type": "array" },
+        "timeLimitMinutes": { "type": "number" },
+        "perQuestionTargetSeconds": { "type": "number" },
+        "googleSheetId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "sections": { "type": "array" },
+        "branchRules": { "type": "array" },
+        "isPasswordProtected": { "type": "boolean" },
+        "masterPassword": { "type": "string" },
+        "limitOnePerRollNo": { "type": "boolean" },
+        "hasNegativeMarking": { "type": "boolean" },
+        "negativeMarkingPenalty": { "type": "number" },
+        "scoreMultiplier": { "type": "number" },
+        "isAutoCloseScheduled": { "type": "boolean" },
+        "autoCloseMinutesFromNow": { "type": "number" },
+        "retentionDays": { "type": "number" },
+        "webhookNotificationUrl": { "type": "string" },
+        "institutionName": { "type": "string" },
+        "themePalette": { "type": "string" }
+      },
+      "required": ["id", "title", "accessCode"]
+    },
+    "StudentSubmission": {
+      "title": "StudentSubmission",
+      "description": "Represents an evaluated or draft submission by a student, with timing breakdown, scores, and keyword metrics.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "examId": { "type": "string" },
+        "examTitle": { "type": "string" },
+        "studentName": { "type": "string" },
+        "rollNo": { "type": "string" },
+        "department": { "type": "string" },
+        "totalScore": { "type": "number" },
+        "maxScore": { "type": "number" },
+        "percentage": { "type": "number" },
+        "objectiveScore": { "type": "number" },
+        "subjectiveScore": { "type": "number" },
+        "totalTimeTakenSeconds": { "type": "number" },
+        "questionTimes": { "type": "object" },
+        "answers": { "type": "object" },
+        "subjectiveEvaluations": { "type": "array" },
+        "googleSheetsSyncStatus": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "isPartialDraft": { "type": "boolean" },
+        "emailNotificationSent": { "type": "boolean" },
+        "appliedNegativePenalty": { "type": "number" },
+        "appliedMultiplier": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "examId", "studentName", "rollNo"]
+    }
+  },
+  "firestore": {
+    "/exams/{examId}": {
+      "schema": "Exam",
+      "description": "Evaluator exams collection synced across educators and students"
+    },
+    "/submissions/{submissionId}": {
+      "schema": "StudentSubmission",
+      "description": "Student exam submissions and drafts collection synced for real-time analytics"
+    }
+  }
+}

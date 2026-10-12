@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    function isValidExam(data) {
+      return data.id is string && data.id.size() > 0 && data.id.size() <= 128 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
+             data.accessCode is string && data.accessCode.size() > 0 && data.accessCode.size() <= 50;
+    }
+
+    function isValidSubmission(data) {
+      return data.id is string && data.id.size() > 0 && data.id.size() <= 128 &&
+             data.examId is string && data.examId.size() > 0 && data.examId.size() <= 128 &&
+             data.studentName is string && data.studentName.size() > 0 && data.studentName.size() <= 100 &&
+             data.rollNo is string && data.rollNo.size() > 0 && data.rollNo.size() <= 50;
+    }
+
+    match /exams/{examId} {
+      allow read: if true;
+      allow create, update: if isValidId(examId) && isValidExam(request.resource.data);
+      allow delete: if isValidId(examId);
+    }
+
+    match /submissions/{submissionId} {
+      allow read: if true;
+      allow create, update: if isValidId(submissionId) && isValidSubmission(request.resource.data);
+      allow delete: if isValidId(submissionId);
+    }
+
+    // Default deny for all other documents
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
